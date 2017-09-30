@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::match(['get','post'],'login','LoginController@login');
+
+Route::match(['get','post'],'login1','LoginController@login1');
