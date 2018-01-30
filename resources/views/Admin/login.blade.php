@@ -1,27 +1,32 @@
 <html>
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8" >
 	<title>账号登录</title>
 	<link rel="stylesheet" type="text/css" href="./resources/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="./resources/themes/icon.css">
 	<script type="text/javascript" src="./resources/js/jquery.min.js"></script>
 	<script type="text/javascript" src="./resources/js/jquery.easyui.min.js"></script>
 </head>
+<style>
+body{background-color:#E0ECFF}
+.main{width:400px;margin:100px auto;}
+</style>
 <body>
-<div style="width:400px;margin:300px auto;">
+<div class="main">
 	<h2>后台登录</h2>
 	<div style="margin:20px 0;"></div>
 	<div class="easyui-panel" title=登录 style="width:400px">
 		<div style="padding:10px 60px 20px 60px">
-	    <form id="ff" method="post">
+	    <form id="login" method="post">
+	    	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 	    	<table cellpadding="5">
 	    		<tr>
 	    			<td>账号:</td>
-	    			<td><input class="easyui-textbox" type="text" name="name" data-options="required:true"></input></td>
+	    			<td><input class="easyui-textbox" type="text" name="userName"  data-options="required:true"></input></td>
 	    		</tr>
 	    		<tr>
 	    			<td>密码:</td>
-	    			<td><input class="easyui-textbox" type="password" name="password" data-options="required:true"></input></td>
+	    			<td><input class="easyui-textbox" type="password" name="passWord"  data-options="required:true"></input></td>
 	    		</tr>
 	    	</table>
 	    </form>
@@ -34,25 +39,20 @@
 </div>
 	<script>
 		function submitForm(){
-			$('#ff').form('submit',{
-				url:'login1',
+			$('#login').form('submit',{
+				url:'login',
 				success:function(result){
-					//var result = eval('('+result+')');
-					if(result){
-						$.messager.show({
-							title:'Error',
-							msg:result
-						});
+					var result = eval('('+result+')');
+					if(result.code==102){
+						$.messager.alert('提示',result.msg,'info',window.location.href="index");
 					}else{
-						$.messager.show({
-							msg:'登陆成功'
-						});
+						$.messager.alert('提示',result.msg,'error');
 					}
 				}
 			});
 		}
 		function clearForm(){
-			$('#ff').form('clear');
+			$('#login').form('clear');
 		}
 	</script>
 </body>

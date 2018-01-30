@@ -11,10 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+/**
+ * 首页
+ */
+Route::get('/','LoginController@loginView');
 
+/**
+ * 登录验证
+ */
 Route::match(['get','post'],'login','LoginController@login');
 
-Route::match(['get','post'],'login1','LoginController@login1');
+/**
+ * 后台首页
+ */
+Route::get('index','IndexController@indexView');
