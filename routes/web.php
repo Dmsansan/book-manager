@@ -28,3 +28,10 @@ Route::match(['get','post'],'login','LoginController@login');
  * 后台首页
  */
 Route::get('index','IndexController@indexView');
+
+/**
+ * 用户管理页面
+ */
+Route::get('user/list','UserController@userList');
+//用户列表
+Route::get('findUserList','UserController@findUserList');
