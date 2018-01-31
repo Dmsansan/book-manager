@@ -11,27 +11,25 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-/**
- * 首页
- */
+//首页
 Route::get('/','LoginController@loginView');
 
-/**
- * 登录验证
- */
+//登录验证
 Route::match(['get','post'],'login','LoginController@login');
 
-/**
- * 后台首页
- */
+//后台首页
 Route::get('index','IndexController@indexView');
 
-/**
- * 用户管理页面
- */
+
+//用户管理页面
 Route::get('user/list','UserController@userList');
 //用户列表
 Route::get('findUserList','UserController@findUserList');
+//用户add和update界面
+Route::get('userAddView','UserController@userAddView');
+//根据userID获取用户信息
+Route::post('getUserInfo','UserController@getUserInfo');
+//add或者update用户信息
+Route::post('changeUserInfo','UserController@changeUserInfo');
+//deleteUser
+Route::post('deleteUser','UserController@deleteUser');

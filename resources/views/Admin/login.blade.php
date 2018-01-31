@@ -15,18 +15,18 @@ body{background-color:#E0ECFF}
 <div class="main">
 	<h2>后台登录</h2>
 	<div style="margin:20px 0;"></div>
-	<div class="easyui-panel" title=登录 style="width:400px">
+	<div class="easyui-panel" title=登录 style="width:360px">
 		<div style="padding:10px 60px 20px 60px">
 	    <form id="login" method="post">
 	    	<input type="hidden" name="_token" value="{{ csrf_token() }}">
-	    	<table cellpadding="5">
+	    	<table cellpadding="5" style="font-size:12px">
 	    		<tr>
 	    			<td>账号:</td>
-	    			<td><input class="easyui-textbox" type="text" name="userName"  data-options="required:true"></input></td>
+	    			<td><input class="easyui-textbox" type="text" name="userName"  data-options="required:true,iconCls:'icon-man',"></input></td>
 	    		</tr>
 	    		<tr>
 	    			<td>密码:</td>
-	    			<td><input class="easyui-textbox" type="password" name="passWord"  data-options="required:true"></input></td>
+	    			<td><input class="easyui-textbox" type="password" name="passWord"  data-options="required:true,iconCls:'icon-lock',"></input></td>
 	    		</tr>
 	    	</table>
 	    </form>
