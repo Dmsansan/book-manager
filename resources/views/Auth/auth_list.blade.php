@@ -13,31 +13,20 @@
                     data-options="rownumbers:false,
                     singleSelect:true,
                     collapsible:true,
-                    url:'../findUserList',
+                    url:'../authority/getAuthList',
                     method:'get',
                     toolbar:toolbar,
                     pagination:true,
                     pageSize:10,
                     nowrap:true,
-                    idField:'userID',
+                    idField:'authID',
                     loadMsg:'数据正在加载，请稍后.......',">
                 <thead>
                     <tr>
-                        <th data-options="field:'userID',sortable:true,resizable:false">序号</th>
-                        <th data-options="field:'userName',resizable:false">用户名</th>
-                        <th data-options="field:'name',align:'right',resizable:false">姓名</th>
-                        <th data-options="field:'sex',align:'right',resizable:false,formatter: function(value,row,index){
-                                                                                                        if(value==1){
-                                                                                                            return '男';
-                                                                                                        }else if(value==0){
-                                                                                                            return '女';
-                                                                                                        }else{
-                                                                                                            return '未知';
-                                                                                                        } }">性别</th>
-                        <th data-options="field:'phone',align:'right',resizable:false">联系方式</th>
-                        <th data-options="field:'qq',resizable:false">QQ</th>
-                        <th data-options="field:'email',resizable:false">Email</th>
-                        <th data-options="field:'address',align:'center',resizable:false">居住地</th>
+                        <th data-options="field:'authID',sortable:true,resizable:false">序号</th>
+                        <th data-options="field:'authName',align:'center',resizable:false">权限名称</th>
+                        <th data-options="field:'rangeTitle',align:'center',resizable:false">管理范围</th>
+                        <th data-options="field:'editTitle',align:'center',resizable:false">操作权限</th>
                         <th data-options="field:'addStamp',align:'center',resizable:false">添加日期</th>
                     </tr>
                 </thead>
@@ -49,25 +38,29 @@
                 iconCls:'icon-add',
                 handler:function(){
                     $('#dd').dialog({    
-                            title: '添加用户',    
+                            title: '添加权限',    
                             width: 530,    
                             height: 300,    
                             closed: false,    
                             cache: false,    
-                            href: '../userAddView?userID=0', 
+                            href: '../authority/authAddView?authID=0', 
                             modal: true,
                             buttons : [ {
                                 id : "sure",
                                 text : "确认",
                                 handler : function() {
                                     $('#ff').form('submit', {    
-                                        url:'../changeUserInfo',  
+                                        url:'../authority/changeAuthInfo',  
                                         onSubmit: function(param){    
-                                            param.type="insert";    
+                                            param.type="insert"; 
+                                            param.managerValue=$('#manager').combobox('getValues'); 
+                                            param.managerTitle=$('#manager').combobox('getText');
+                                            param.editValue=$('#edit').combobox('getValues'); 
+                                            param.editTitle=$('#edit').combobox('getText');  
                                         },    
                                         success:function(data){ 
                                             var data = eval('('+data+')');   
-                                            if(data.code==104){
+                                            if(data.code==102){
                                                 $.messager.alert('提示',data.msg,'info',function(){
                                                     $('#dd').dialog("close");
                                                     $('#bg').datagrid('reload');
@@ -127,14 +120,14 @@
                             height: 300,    
                             closed: false,    
                             cache: false,    
-                            href: '../userAddView?userID='+row.userID, 
+                            href: '../authority/authAddView?authID='+row.authID, 
                             modal: true,
                             buttons : [ {
                                 id : "sure",
                                 text : "确认",
                                 handler : function() {
                                     $('#ff').form('submit', {    
-                                        url:'../changeUserInfo',  
+                                        url:'../authority/changeAuthInfo',  
                                         onSubmit: function(param){    
                                             param.type="update";    
                                         },    

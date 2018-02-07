@@ -28,14 +28,12 @@
 <script>
 $(document).ready(function(){
 	$.ajax({
-		url:'getUserInfo',
+		url:'../getUserInfo',
 		type:'post',
 		dataType:'json',
 		data:{'userID':{{$_GET['userID'] }}},
 		success:function(res){
-			if(res){
 				$('#ff').form('load',res);
-			}
 		},
 		error:function(res){
 			$.messager.show({
