@@ -36,17 +36,19 @@ class UserController extends BaseController{
 
 		if(!empty($sort)&&!empty($order)){
 			$user = DB::table('bm_user')
+						->where('delStatus',0)
 						->orderBy($sort,$order)
 						->offset($start)
 						->limit($end)
 						->get();
 		}else{
 			$user = DB::table('bm_user')
+						->where('delStatus',0)
 						->offset($start)
 						->limit($end)
 						->get();
 		}
-		$userTotal = DB::select("SELECT COUNT(*) total FROM bm_user");
+		$userTotal = DB::select("SELECT COUNT(*) total FROM bm_user WHERE delStatus=0");
 		$total = $userTotal[0]->total;
 		return json_encode(array('rows'=>$user,'total'=>$total));
 	}
@@ -133,7 +135,7 @@ class UserController extends BaseController{
 			return json_encode(array('code'=>102,'msg'=>'缺少必要参数！'));
 			die();
 		}
-		$res = DB::table('bm_user')->where('userID',$userID)->delete();
+		$res = DB::table('bm_user')->where('userID',$userID)->update(['delStatus'=>1]);
 		if($res){
 			return json_encode(array('code'=>100,'msg'=>'用户信息删除成功！'));
 		}else{

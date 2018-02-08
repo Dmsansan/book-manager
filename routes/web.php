@@ -49,3 +49,5 @@ Route::get('authority/authAddView','Authority\AuthController@authAddView');
 Route::match(['get','post'],'authority/changeAuthInfo','Authority\AuthController@changeAuthInfo');
 //根据authID获取信息
 Route::match(['get','post'],'authority/getAuthInfo','Authority\AuthController@getAuthInfo');
+//删除权限
+Route::match(['get','post'],'authority/deleteAuth','Authority\AuthController@delAuth');

@@ -61,8 +61,15 @@ class AuthController extends BaseController{
 		return view('Auth/auth_add');
 	}
 
+	/**
+	 * 新增以及编辑权限接口
+	 * @param  Request $req [description]
+	 * @return [type]       [description]
+	 */
 	public function changeAuthInfo(Request $req){
 		$type = null !== $req->input('type') ? trim($req->input('type').'') : '';
+
+		$authID = null !== $req->input('authID') ? trim($req->input('authID').'') : '';
 
 		$authName = null !== $req->input('authName') ? trim($req->input('authName').'') : '';
 		$managerValue = null !== $req->input('managerValue') ? trim($req->input('managerValue').'') : '';
@@ -90,11 +97,34 @@ class AuthController extends BaseController{
 				return json_encode(array('code'=>103,'msg'=>'服务器异常！'));
 			}
 		}else{//编辑
+			if(empty($authID)){
+				return json_encode(array('code'=>104,'msg'=>'缺少必要参数！'));
+				die();
+			}
+			$auth  = DB::table('bm_authority')
+						->where('authID',$authID)
+						->first();
+			if($authName==$auth->authName&&$managerValue==$auth->rangeValue&&$editValue==$auth->editValue){
+				return json_encode(array('code'=>105,'msg'=>'没有记录被修改！'));
+				die();
+			}
+			$res = DB::table('bm_authority')
+						->where('authID',$authID)
+						->update(['authName'=>$authName,'rangeValue'=>$managerValue,'rangeTitle'=>$managerTitle,'editValue'=>$editValue,'editTitle'=>$editTitle]);
+			if($res){
+				return json_encode(array('code'=>106,'msg'=>'权限修改成功！'));
+			}else{
+				return json_encode(array('code'=>107,'msg'=>'服务器异常！'));
+			}
 
 		}
-		//return json_encode($req->input());
 	}
 
+	/**
+	 * 获取用户信息
+	 * @param  request $req [authID]
+	 * @return [type]       [description]
+	 */
 	public function getAuthInfo(request $req){
 		$authID = null !== $req->input('authID') ? trim($req->input('authID')) : '';
 		if(empty($authID)){
@@ -108,6 +138,23 @@ class AuthController extends BaseController{
 			return json_encode(array('code'=>101,'data'=>$auth));
 		}else{
 			return json_encode(array('code'=>102,'msg'=>'记录为空！'));
+		}
+	}
+
+	public function delAuth(request $req){
+		$authID = null !== $req->input('authID') ? trim($req->input('authID')) : '';
+		if(empty($authID)){
+			return json_encode(array('code'=>100,'msg'=>'缺少必要参数！'));
+			die();
+		}
+
+		$res = DB::table('bm_authority')
+					->where('authID',$authID)
+					->update(['delStatus'=>1]);
+		if($res){
+			return json_encode(array('code'=>101,'msg'=>'权限删除成功！'));
+		}else{
+			return json_encode(array('code'=>102,'msg'=>'服务器异常！'));
 		}
 	}
 }

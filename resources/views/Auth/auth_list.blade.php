@@ -89,10 +89,10 @@
                         $.messager.confirm('提示', '确定删除这条记录?', function(r){
                             if (r){
                                 $.ajax({
-                                    url:'../deleteUser',
+                                    url:'../authority/deleteAuth',
                                     type:'post',
                                     dataType:'json',
-                                    data:{'userID':row.userID},
+                                    data:{'authID':row.authID},
                                     success:function(data){
                                          $.messager.alert('提示',data.msg,'info',function(){
                                                     $('#bg').datagrid('reload');
@@ -129,11 +129,15 @@
                                     $('#ff').form('submit', {    
                                         url:'../authority/changeAuthInfo',  
                                         onSubmit: function(param){    
-                                            param.type="update";    
+                                            param.type="update";
+                                            param.managerValue=$('#manager').combobox('getValues'); 
+                                            param.managerTitle=$('#manager').combobox('getText');
+                                            param.editValue=$('#edit').combobox('getValues'); 
+                                            param.editTitle=$('#edit').combobox('getText');
                                         },    
                                         success:function(data){ 
                                             var data = eval('('+data+')');   
-                                            if(data.code==102){
+                                            if(data.code==106){
                                                 $.messager.alert('提示',data.msg,'info',function(){
                                                     $('#dd').dialog("close");
                                                     $('#bg').datagrid('reload');
