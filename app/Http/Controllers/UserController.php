@@ -128,6 +128,11 @@ class UserController extends BaseController{
 			}	
 	}
 
+	/**
+	 * 删除用户接口
+	 * @param  Request $request userID
+	 * @return json            ['code':,'msg':]
+	 */
 	public function deleteUser(Request $request){
 		$userID = $request->input('userID');
 
